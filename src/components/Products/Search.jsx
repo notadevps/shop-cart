@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useRef } from 'react';
+import _products from '../../utils/products.json';
+const Search = ({ search, setSearch, setProducts }) => {
+  const inputRef = useRef(null);
+  let cat = {
+    gender: ['men', 'women'], 
+    type: ['polo', 'basic', 'hoodie'], 
+    color: ['red', 'green', 'blue', 'black', 'purple', 'blue', 'grey']
+  };
 
-const Search = ({ search, setSearch }) => {
-const inputRef = useRef(null);
 
   return (
     <SearchStyle>
@@ -12,7 +18,41 @@ const inputRef = useRef(null);
         <input name='search' placeholder='Search for products...'  ref={inputRef} />        
       </div>
       <div className='icon'  onClick={() => {
-        setSearch(inputRef.current.value)
+        if (inputRef.current.value.length <= 0) {
+          alert('Invalid Input'); 
+        } else {
+          let compo = inputRef.current.value.split(' ');
+          let obj = {};  
+          for (const el of compo) {
+            if (cat.color.includes(el.toLowerCase())) {
+              obj.color = el;
+            }
+            if (cat.type.includes(el.toLowerCase())) {
+              obj.type = el; 
+            }
+            if (cat.gender.includes(el.toLowerCase())) {
+              obj.gender = el;
+            }
+          }
+          let c = [];
+          let firstAttr = Object.keys(obj)[0];
+          console.log(firstAttr); 
+          for (const pr of _products) {
+            if (pr[firstAttr] && pr[firstAttr].toLowerCase() === obj[firstAttr].toLowerCase()) {
+              c.push(pr);
+            }
+          }
+          if (Object.keys(obj).length != 1) {
+            for (const el in obj) {
+              if (el === firstAttr) continue; 
+              c = c.filter(pr => pr[el] && pr[el].toLowerCase() === obj[el].toLowerCase()); 
+            }
+          } 
+          console.log(c);
+          
+          
+          setProducts([...c]);
+        }
       }} ><AiOutlineSearch /></div>
     </div>
     </SearchStyle>
@@ -36,13 +76,14 @@ const SearchStyle = styled.div`
 
 
   .searchBox {
-    width: 100%;
+    width: 50%;
   }
 
 
   .searchContainer {
     display: flex; 
     align-items: center;
+    justify-content: center; 
     box-sizing: border-box;
     gap: 0.5rem; 
   }

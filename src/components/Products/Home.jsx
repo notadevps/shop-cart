@@ -16,16 +16,19 @@ const Home = () => {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState(_products);
   const [pageState, setPageState] = useState({ products: true });
-  const [cartProducts, setCartProducts] = useState([]); 
-  const [currentQty, setCurrentQty] = useState({});
+  console.log(JSON.parse(localStorage.getItem('cart')) );
+  const [cartProducts, setCartProducts] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart'))  : [] ); 
+  const [currentQty, setCurrentQty] = useState(localStorage.getItem('cartQty') ? JSON.parse(localStorage.getItem('cartQty')) : {});
 
   useEffect(() => {
-    console.log(currentQty);
-  }, [currentQty]); 
+    localStorage.setItem('cart', JSON.stringify(cartProducts)); 
+    localStorage.setItem('cartQty', JSON.stringify(currentQty));           
+  }, [currentQty, cartProducts]); 
 
   useEffect(() => {
     _filter(setProducts, _products, filters);
-  }, [filters])
+  }, [filters]); 
+
 
 
   return (
@@ -43,7 +46,7 @@ const Home = () => {
         </div>
         <div className='right'>
               <div className='search'>  
-                <Search search={search} setSearch={setSearch} />
+                <Search search={search} setSearch={setSearch} setProducts={setProducts} />
               </div>
               <div className='products'> 
                 <Listing products={products} setCartProducts={setCartProducts} cartProducts={cartProducts} setCurrentQty={setCurrentQty} currentQty={currentQty} />

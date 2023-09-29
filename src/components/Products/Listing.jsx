@@ -40,7 +40,6 @@ const Listing = ({ products, setCartProducts, cartProducts, setCurrentQty, curre
 								<div className='offers'>
 									10% off
 								</div>
-								<span>{product.color} {product.gender} {product.type} </span>
 							<div className='footer'>
 								<span>4.6k</span>
 								<div><AiTwotoneStar id='some' /> <AiTwotoneStar /> <AiTwotoneStar /> <AiTwotoneStar />  <FaRegStarHalfStroke /> </div>
@@ -49,7 +48,7 @@ const Listing = ({ products, setCartProducts, cartProducts, setCurrentQty, curre
 						</div>
 					</div>
 				)
-			}) : <span>Your cart is empty</span>}  
+			}) : <span>No products...</span>}  
 		</div>		
 		</ListingStyle>
 	)

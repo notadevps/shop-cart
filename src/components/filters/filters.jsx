@@ -6,7 +6,6 @@ import { TiTick } from 'react-icons/ti';
 
 
 const Filters = ({ setFilters, filters }) => {
-  const [prizeRange, setPriceRange] = useState([0, 250]);
 
   
   return  (
@@ -19,15 +18,33 @@ const Filters = ({ setFilters, filters }) => {
           </div>
           <div className='tail'>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, color: 'red'})}>    {filters.color === 'red' ? <TiTick /> : null} </div>
+            <div className='tick' onClick={(e) =>  { 
+              if (filters.color && filters.color === 'red') {
+                setFilters({...filters, color: ''}); 
+              } else {
+                setFilters({...filters, color: 'red'})
+              }
+            }}>    {filters.color === 'red' ? <TiTick /> : null} </div>
             <span>Red</span>            
           </div>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, color: 'blue' })}> {filters.color === 'blue' ? <TiTick /> : null} </div>
+            <div className='tick' onClick={(e) => { 
+            if (filters.color && filters.color === 'blue') {
+              setFilters({...filters, color: ''}); 
+            } else {
+              setFilters({...filters, color: 'blue' })
+            }
+            }}> {filters.color === 'blue' ? <TiTick /> : null} </div>
             <span>Blue</span>            
           </div>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, color: 'green'})}>{filters.color === 'green' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => { 
+            if (filters.color && filters.color === 'green') {
+              setFilters({...filters, color: ''}); 
+            } else {
+              setFilters({...filters, color: 'green' })
+            }
+            }}>{filters.color === 'green' ? <TiTick /> : null}</div>
             <span>Green</span>            
           </div>
           </div>
@@ -41,11 +58,23 @@ const Filters = ({ setFilters, filters }) => {
           </div>
           <div className='tail'>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'men'})}>{filters.gender === 'men' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => { 
+             if (filters.gender && filters.gender === 'men') {
+              setFilters({...filters, gender: ''}); 
+            } else {
+              setFilters({...filters, gender: 'men' })
+            }
+            }}>{filters.gender === 'men' ? <TiTick /> : null}</div>
             <span>Male</span>            
           </div>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'women' })}>{filters.gender === 'women' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => {
+              if (filters.gender && filters.gender === 'women') {
+                setFilters({...filters, gender: ''}); 
+              } else {
+                setFilters({...filters, gender: 'women' })
+              }
+            }}>{filters.gender === 'women' ? <TiTick /> : null}</div>
             <span>Female</span>            
           </div>
           </div>
@@ -58,9 +87,9 @@ const Filters = ({ setFilters, filters }) => {
             <span>Prize</span> 
           </div>
           <div className='tail' style={{ gap: '0.8rem'}}>
-              <span>{filters.prize[0]} - {filters.prize[1]} Rs </span>
+              <span>{filters.prize[0] ? filters.prize[0] : 0 } - {filters.prize[1] ? filters.prize[1]  : 500 } Rs </span>
               <div>
-                <RangeSlider defaultValue={prizeRange} min={0} max={500} step={100} onInput={(e) => setFilters({...filters, prize: e })} />
+                <RangeSlider defaultValue={[0, 500]} min={0} max={500} step={50} onInput={(e) => setFilters({...filters, prize: e })} />
               </div>
           </div>
         </div>
@@ -71,15 +100,33 @@ const Filters = ({ setFilters, filters }) => {
           </div>
           <div className='tail'>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, type: 'polo'})}>{filters.type === 'polo' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => { 
+              if (filters.type && filters.type === 'polo') {
+                setFilters({...filters, type: ''}); 
+              } else {
+                setFilters({...filters, type: 'polo'})
+              }
+            }}>{filters.type === 'polo' ? <TiTick /> : null}</div>
             <span>Polo</span>            
           </div>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, type: 'hoodie'})}>{filters.type === 'hoodie' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => { 
+              if (filters.type && filters.type === 'hoodie') {
+                setFilters({...filters, type: ''}); 
+              } else {
+                setFilters({...filters, type: 'hoodie'})
+              }
+            }}>{filters.type === 'hoodie' ? <TiTick /> : null}</div>
             <span>Hoodie</span>            
           </div>
           <div>
-            <div  className='tick' onClick={(e) => setFilters({...filters, type: 'basic'})}>{filters.type === 'basic' ? <TiTick /> : null}</div>
+            <div  className='tick' onClick={(e) => { 
+              if (filters.type && filters.type === 'basic') {
+                setFilters({...filters, type: ''}); 
+              } else {
+                setFilters({...filters, type: 'basic'})
+              }
+            }}>{filters.type === 'basic' ? <TiTick /> : null}</div>
             <span>Basic</span>            
           </div>
           </div>
