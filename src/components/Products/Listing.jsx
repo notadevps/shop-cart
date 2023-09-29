@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { AiTwotoneStar } from 'react-icons/ai'; 
 import { FaRegStarHalfStroke } from 'react-icons/fa6'; 
 
-const Listing = ({ products }) => {
+const Listing = ({ products, setCartProducts, cartProducts, setCurrentQty, currentQty }) => {
 	return (
 		<ListingStyle> 
 		<div className='productsContainer'>
 			{products.length > 0 ? products.map((product, i) => {
+				if (!product) return; 
 				return (
 					<div key={product.id} className={`card`}>
 						<div className={`cardImg ${i === 3 || i === 6 || i === 10 ? 'blur' : ''}`}>
@@ -18,12 +19,28 @@ const Listing = ({ products }) => {
 							</div>
 							<div className='top'>
 								<span className='price'> {product.price} &#8377;</span>
-								<span className='btn' style={ i === 3 || i === 6 || i === 10  ? { backgroundColor: 'rgba(0, 0, 0, 0.3)' }: null}>Add to cart</span>
+								<span 
+									onClick={(e) => {
+										if (i === 3 || i === 6 || i === 10) return; 
+										let index = cartProducts.findIndex(el => el.id  === product.id); 
+										if (index < 0 ) {
+											setCartProducts([...cartProducts, product]);
+											alert('added to cart');
+											setCurrentQty({...currentQty, [product.id]: 1,})
+										} else {
+											//snackbar message 'product is already in your cart'
+											alert('already there');
+										}
+									}}	
+									className='btn' 
+									style={ i === 3 || i === 6 || i === 10  ? { backgroundColor: 'rgba(0, 0, 0, 0.3)' }: null}
+								>Add to cart</span>
 							</div>
 							<div className='fot'>
 								<div className='offers'>
 									10% off
 								</div>
+								<span>{product.color} {product.gender} {product.type} </span>
 							<div className='footer'>
 								<span>4.6k</span>
 								<div><AiTwotoneStar id='some' /> <AiTwotoneStar /> <AiTwotoneStar /> <AiTwotoneStar />  <FaRegStarHalfStroke /> </div>

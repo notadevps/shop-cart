@@ -7,6 +7,8 @@ import { TiTick } from 'react-icons/ti';
 
 const Filters = ({ setFilters, filters }) => {
   const [prizeRange, setPriceRange] = useState([0, 250]);
+
+  
   return  (
     <FiltersStyle>
       <div className='filterContainer'>
@@ -39,11 +41,11 @@ const Filters = ({ setFilters, filters }) => {
           </div>
           <div className='tail'>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'male'})}>{filters.gender === 'male' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'men'})}>{filters.gender === 'men' ? <TiTick /> : null}</div>
             <span>Male</span>            
           </div>
           <div>
-            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'female' })}>{filters.gender === 'female' ? <TiTick /> : null}</div>
+            <div className='tick' onClick={(e) => setFilters({...filters, gender: 'women' })}>{filters.gender === 'women' ? <TiTick /> : null}</div>
             <span>Female</span>            
           </div>
           </div>
@@ -56,9 +58,9 @@ const Filters = ({ setFilters, filters }) => {
             <span>Prize</span> 
           </div>
           <div className='tail' style={{ gap: '0.8rem'}}>
-              <span>{filters.prize[0]}-{filters.prize[1]} Rs </span>
+              <span>{filters.prize[0]} - {filters.prize[1]} Rs </span>
               <div>
-                <RangeSlider value={prizeRange} min={0} max={500} step={100} onInput={(e) => filters.prize(e)} />
+                <RangeSlider defaultValue={prizeRange} min={0} max={500} step={100} onInput={(e) => setFilters({...filters, prize: e })} />
               </div>
           </div>
         </div>
@@ -135,6 +137,7 @@ const FiltersStyle = styled.div`
   .tail div .tick {
     border: 1px solid black;
     width: 20px; 
+    color: lightgreen;
     height: 20px; 
   }
 

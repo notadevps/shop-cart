@@ -1,10 +1,59 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 
-const Cart = ({ cartProducts, setCartProducts }) => {
-
+const Cart = ({ cartProducts, setCartProducts, currentQty, setCurrentQty }) => {
   
+  const calcAmount = () => {
+    let total = 0; 
+    cartProducts.map((pr, i) => {
+      if (currentQty[pr.id] && currentQty[pr.id] != 1) {
+        total += pr.price * currentQty[pr.id]
+      } else {
+        total += pr.price
+      }
+    })
 
+    return total; 
+  }
+
+  const removeProduct = (product) => {
+    let index = cartProducts.findIndex(el=> product.id === el.id); 
+    console.log(index);
+    if (index >= 0) {
+      let p = cartProducts; 
+      p.splice(index, 1);
+      console.log(p)
+      setCartProducts([...p]);
+      if (currentQty[product.id]) {
+        setCurrentQty({...currentQty, [product.id]: null });
+      }
+    } else {
+      alert('No product found!');
+    }
+  }
+
+
+
+
+  const increaseQty = (productid) => {
+    let pr = cartProducts.find(el => el.id == productid );
+    if (currentQty[productid] + 1 > pr.quantity ) {
+      alert('thats all we have at this moment');
+    } else {
+      setCurrentQty({...currentQty, [productid]:  currentQty[productid] + 1 });
+    }
+  }
+
+  const decreaseQty = (productid) => {
+    if (currentQty[productid] - 1 > 0) {
+      setCurrentQty({...currentQty, [productid]:  currentQty[productid] - 1 });
+    }
+  }
+
+  useEffect(() => {
+    console.log(cartProducts);
+  }, [cartProducts])
 
   return (
     <CartStyle>
@@ -28,11 +77,11 @@ const Cart = ({ cartProducts, setCartProducts }) => {
                     <span className='price'>{product.price} &#8377;</span>
                   </div>
                   <div className='qty'>
-                    <span id='minus'>-</span>
-                    <span>1</span>
-                    <span id='plus'>+</span>
+                    <span id='minus' onClick={() => increaseQty(product.id)} >+</span>
+                    <span>{currentQty[product.id] || 1}</span>
+                    <span id='plus' onClick={() => decreaseQty(product.id)} >-</span>
                   </div>
-                  <div className='remove'>
+                  <div className='remove' onClick={() => removeProduct(product)}>
                     <span>Delete</span>
                   </div>
                 </div>
@@ -45,7 +94,7 @@ const Cart = ({ cartProducts, setCartProducts }) => {
         <div className='line'></div>
         <div className='total'>
             <span style={{ fontWeight: '600' }}>Total Amount </span>
-            <span style={{ fontWeight: '400' }}>Rs 2200</span>
+            <span style={{ fontWeight: '400' }}>Rs {calcAmount()}</span>
         </div>
         </>: <span className='empty' >Your cart is empty</span>}
       </div>

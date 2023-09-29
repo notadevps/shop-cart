@@ -7,15 +7,25 @@ import Search from './Search';
 import Nav from '../nav/Nav';
 import Listing from './Listing';
 import Cart from '../cart/Cart';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import _products from '../../utils/products.json';
+import { _filter }  from '../../utils/filter';
 
 const Home = () => {
-  const [filters, setFilters] = useState({ color: '', gender: '', type: '', prize: [0, 250] });
+  const [filters, setFilters] = useState({ color: '', gender: '', type: '', prize: [] });
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState(_products);
   const [pageState, setPageState] = useState({ products: true });
-  const [cartProducts, setCartProducts] = useState(products.slice(0, 7)); 
+  const [cartProducts, setCartProducts] = useState([]); 
+  const [currentQty, setCurrentQty] = useState({});
+
+  useEffect(() => {
+    console.log(currentQty);
+  }, [currentQty]); 
+
+  useEffect(() => {
+    _filter(setProducts, _products, filters);
+  }, [filters])
 
 
   return (
@@ -36,10 +46,10 @@ const Home = () => {
                 <Search search={search} setSearch={setSearch} />
               </div>
               <div className='products'> 
-                <Listing products={products} setCartProducts={setCartProducts} />
+                <Listing products={products} setCartProducts={setCartProducts} cartProducts={cartProducts} setCurrentQty={setCurrentQty} currentQty={currentQty} />
               </div>
         </div>
-      </div> : <Cart cartProducts={cartProducts} setCartProducts={setCartProducts} />}
+      </div> : <Cart cartProducts={cartProducts} setCartProducts={setCartProducts} currentQty={currentQty} setCurrentQty={setCurrentQty} />}
     </HomeStyle>
   ) 
 }
